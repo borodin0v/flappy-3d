@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
     private GameObject player;
     [SerializeField] bool isCrashed;
     [SerializeField] float jumpVelocity = 4;
+    [SerializeField] public float LRVelocity = 2;
     void Start()
     {
         Debug.Log("I started");
-        InvokeRepeating("tick", 1f, 1f);
         
     }
     private void Update()
@@ -23,31 +23,23 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(ups))
         {
-            Debug.Log("jump");
-           
-            GetComponent<Rigidbody>().velocity += (Vector3.up * jumpVelocity);
+            Debug.Log("");
+        }
+        else if(Input.GetKeyDown(KeyCode.A)){
+            Debug.Log("Left");
+            GetComponent<Rigidbody>().velocity += (Vector3.forward * LRVelocity );
+        }
+        else if(Input.GetKeyDown(KeyCode.D)){
+            Debug.Log("Right");
+            GetComponent<Rigidbody>().velocity += (Vector3.back * LRVelocity );
         }
     }
     private void FixedUpdate()
     {
         //every tick increase x speed by 0.3
-
-    }
-    private void tick()
-    {
-        if(!isCrashed){
-        moveDirection.x += 0.3f;
-        GetComponent<Rigidbody>().AddForce(moveDirection);
-        }
-    }
-    
-    void jump()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (Input.GetKeyDown(space) || Input.GetKeyDown(ups))
-        {
+        if(Input.GetKeyDown(KeyCode.Space)){
             Debug.Log("jump");
-            GetComponent<Rigidbody>().velocity += moveDirection;
+            GetComponent<Rigidbody>().velocity += (Vector3.up * jumpVelocity);
         }
     }
     void OnCollisionEnter(Collision collision)
